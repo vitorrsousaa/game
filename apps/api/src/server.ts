@@ -1,22 +1,26 @@
+import http from "node:http";
 import { json, urlencoded } from "body-parser";
+import cors from "cors";
 import express, { type Express } from "express";
 import morgan from "morgan";
-import cors from "cors";
 
-export const createServer = (): Express => {
+const database = ["1", "2"];
+
+export const createServer = () => {
 	const app = express();
 	app
 		.disable("x-powered-by")
 		.use(morgan("dev"))
 		.use(urlencoded({ extended: true }))
 		.use(json())
-		.use(cors())
-		.get("/message/:name", (req, res) => {
-			return res.json({ message: `hello ${req.params.name}` });
-		})
-		.get("/status", (_, res) => {
-			return res.json({ ok: true });
-		});
+		.use(cors());
 
-	return app;
+	app.get("/teste", (req, res) => {
+		database.push("3");
+		return res.json({ message: database });
+	});
+
+	const server = http.createServer(app);
+
+	return server;
 };
