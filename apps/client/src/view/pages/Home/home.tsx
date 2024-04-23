@@ -1,17 +1,20 @@
 import { Button } from "@repo/ui";
-import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import viteLogo from "/vite.svg";
 
-const buttonVariants = [
-	"default",
-	"destructive",
-	"outline",
-	"secondary",
-	"ghost",
-	"link",
-] as const;
-
 export function Home() {
+	const navigate = useNavigate();
+
+	function clickAttack() {
+		localStorage.setItem("@condition", "attack");
+		navigate("/battle");
+	}
+
+	function clickDefense() {
+		localStorage.setItem("@condition", "defense");
+		navigate("/battle");
+	}
+
 	return (
 		<div className="mt-8 items-center space-y-4">
 			<div className="flex w-full justify-center text-3xl font-bold gap-2">
@@ -22,17 +25,16 @@ export function Home() {
 			</div>
 			<div className="flex w-full justify-center space-x-4">
 				<ul className="items-center space-y-1 md:inline-flex md:space-x-1 md:space-y-0">
-					{buttonVariants.map((variant) => (
-						<li key={variant}>
-							<Button
-								variant={variant}
-								className="capitalize"
-								onClick={() => toast.success(variant)}
-							>
-								{variant}
-							</Button>
-						</li>
-					))}
+					<Button className="capitalize" onClick={clickAttack}>
+						attack
+					</Button>
+					<Button
+						className="capitalize"
+						variant="secondary"
+						onClick={clickDefense}
+					>
+						defense
+					</Button>
 				</ul>
 			</div>
 		</div>
