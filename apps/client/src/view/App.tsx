@@ -1,12 +1,15 @@
+import { ThemeProvider } from "@repo/ui";
 import { Toaster } from "react-hot-toast";
 import { Router } from "./router/browser";
 
 function App() {
 	return (
 		<>
-			<Router />
+			<ThemeProvider defaultTheme="dark">
+				<Router />
 
-			<Toaster />
+				<Toaster />
+			</ThemeProvider>
 		</>
 	);
 }
