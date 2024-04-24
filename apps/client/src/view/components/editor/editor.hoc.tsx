@@ -6,7 +6,11 @@ export function withEditorContext(Component: React.ComponentType<unknown>) {
 
 	return function WithEditorContext(props: EditorProps) {
 		return (
-			<EditorContextProvider initialTemplate={props.initialTemplate}>
+			<EditorContextProvider
+				initialTemplate={props.initialTemplate}
+				template={props.template}
+				mode={props.mode}
+			>
 				<Component />
 			</EditorContextProvider>
 		);
