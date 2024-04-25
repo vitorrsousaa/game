@@ -3,8 +3,10 @@ import { json, urlencoded } from "body-parser";
 import cors from "cors";
 import express, { type Express } from "express";
 import morgan from "morgan";
+import { io } from ".";
+import { game } from "./game";
 
-const database = ["1", "2"];
+const database = [];
 
 export const createServer = () => {
 	const app = express();
@@ -16,8 +18,22 @@ export const createServer = () => {
 		.use(cors());
 
 	app.get("/teste", (req, res) => {
-		database.push("3");
-		return res.json({ message: database });
+		io.emit("connection", game.getPlayers());
+
+		return res.json({ message: game.getPlayers() });
+	});
+
+	app.post("/create-player", (req, res) => {
+		game.setPlayer({
+			socketId: Math.random().toString(),
+			name: req.body.name,
+		});
+
+		console.log(game.getPlayers());
+
+		io.emit("@players", game.getPlayers());
+
+		res.json({ message: "ok" });
 	});
 
 	const server = http.createServer(app);
